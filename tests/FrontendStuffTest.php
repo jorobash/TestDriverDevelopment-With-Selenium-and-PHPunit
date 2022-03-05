@@ -67,4 +67,53 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->markTestIncomplete('Make input values dynamic');
     }
+
+    public function testCanSeeFormValidation()
+    {
+        $this->url('');
+        $button = $this->byCssSelector('input[type="submit"]');
+        $button->submit();
+        $this->assertContains('Fill correctly the form',$this->source());
+
+        $this->back();
+        $categoryName = $this->byName('category_name');
+        $categoryName->value("Joro");
+        $categoryDescription = $this->byName('category_description');
+        $categoryDescription->value('Description text');
+        $button = $this->byCssSelector('input[type="submit"]');
+        $button->submit();
+        $this->assertContains('Category was saved',$this->source());
+    }
+
+    public function testCanSeeNestedCategories()
+    {
+        $this->url('');
+        $categories = $this->elements(
+            $this->using('css selector')
+                ->value('ul.dropdown li'));
+        $this->assertEquals(18,count($categories));
+
+        $element2 = $this->byCssSelector('ul.dropdown > li:nth-child(2) > a');
+        $this->assertEquals('Electronics',$element2->text());
+
+        $element3 = $this->byCssSelector('ul.dropdown > li:nth-child(3) > a');
+        $this->assertEquals('Videos',$element3->text());
+
+        $element4 = $this->byCssSelector('ul.dropdown > li:nth-child(4) > a');
+        $this->assertEquals('Software',$element4->text());
+
+//        $element5 = $this->byCssSelector('ul.dropdown > :nth-child(2) > :nth-child(2) > :nth-child(1) > a' );
+//        $text = $element5->attribute('text');
+
+          $element5 = $this->byXPath('//ul[@class="dropdown menu"]/li[2]/ul[1]/li[1]/a');
+          $text = $element5->attribute('text');
+          $href = $element5->attribute('href');
+          $this->assertRegExp('@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,Monitors$@',$href);
+
+          $element6 = $this->byXPath('//ul[@class="dropdown menu"]/li[2]/ul[1]//ul[1]//ul[1]//ul[1]/li[1]/a');
+          $href = $element6->attribute('href');
+          $this->assertRegExp(
+              '@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,FullHD$@',$href
+          );
+    }
 }

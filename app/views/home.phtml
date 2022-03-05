@@ -10,7 +10,7 @@
           <li class="has-submenu">
             <a href="<?= $baseUrl ?>/show-category/1">Electronics</a>
             <ul class="submenu menu vertical" data-submenu>
-              <li><a href="#">Monitors</a></li>
+              <li><a href="<?= $baseUrl?>show-category/2,Monitors">Monitors</a></li>
               <li><a href="#">Tablets</a></li>
               <li>
                 <a href="#">Computers</a>
@@ -25,7 +25,7 @@
                       <li>
                         <a href="#">Acer</a>
                         <ul class="submenu menu vertical" data-submenu>
-                          <li><a href="#">FullHD</a></li>
+                          <li><a href="<?= $baseUrl?>show-category/7,FullHD">FullHD</a></li>
                           <li><a href="#">HD+</a></li>
                         </ul>
                       </li>
@@ -71,17 +71,31 @@
             <?php endif; ?>
 
           </h3>
+          <?php if(isset($categorySaved)  && $categorySaved == false): ?>
+          <div class="callout alert">
+            Fill correctly the form
+          </div>
+          <?php elseif(isset($categorySaved) && $categorySaved == true): ?>
+            <?php ?>
+            <div class="callout alert">
+                Category was saved
+            </div>
+            <?php endif; ?>
           <?php if($category_deleted ?? false): ?>
           <div class="callout alert">
                       Category was deleted
           </div>
           <?php endif; ?>
+          <form method="post" action="<?= $baseUrl ?>save-category">
           <label>Name
-            <input type="text" placeholder="Name" />
+            <input name="category_name" type="text" placeholder="Name"
+            value="<?= $editCategory ?? null ?>"
+            required/>
           </label>
           <label
             >Description
-            <textarea placeholder="Description"></textarea>
+            <textarea name="category_description" placeholder="Description"
+           required></textarea>
           </label>
           <label
             >Parent category
@@ -115,6 +129,7 @@
             class="button expanded"
             value="Save category"
           />
+          </form>
         </div>
 
         <div class="medium-6 large-5 cell large-offset-1">

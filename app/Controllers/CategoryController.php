@@ -32,4 +32,18 @@ class CategoryController extends BaseController
            'editCategory' => $category
         ]);
     }
+
+    public function saveCategory($request,$response,$args)
+    {
+        $data = $request->getParsedBody();
+        if(empty($data['category_name']) || empty($data['category_description'])){
+            $categorySaved = false;
+        }
+        else{
+            $categorySaved = true;
+        }
+        return $this->container->view->render($response,'home.phtml',[
+            'categorySaved' => $categorySaved
+        ]);
+    }
 }
