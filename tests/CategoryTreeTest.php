@@ -48,4 +48,40 @@ class CategoryTreeTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($after_conversion, $tree->convert($db_result));
     }
+//
+//    public function testCanConvertDatabaseResultIntoTwoNestedLevelArray()
+//    {
+//        $tree = new \App\Services\CategoryTree();
+//
+//        $db_result = [
+//            ['id' => 1, 'name' => 'Electronics', 'parent_id' => null],
+//            ['id' => 2, 'name' => 'Computers', 'parent_id' => 1],
+//            ['id' => 3, 'name' => 'Laptops', 'parent_id' => 2]
+//        ];
+//
+//        $after_conversion = [
+//            [
+//                'id' => 1,
+//                'name' => 'Electronics',
+//                'parent_id' => null,
+//                'children' => [
+//                    [
+//                        'id' => 2,
+//                        'name' => 'Computers',
+//                        'parent_id' => 1,
+//                        'children' => [
+//                            [
+//                                'id' => 3,
+//                                'name' => 'Laptops',
+//                                'parent_id' => 2,
+//                                'children' => []
+//                            ]
+//                        ]
+//                    ]
+//                ]
+//            ]
+//        ];
+//
+//        $this->assertEquals($after_conversion,$tree->convert($db_result));
+//    }
 }
