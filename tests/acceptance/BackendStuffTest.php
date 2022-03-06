@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Category;
+
 class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
 {
     public static function setUpBeforeClass(): void
@@ -27,9 +29,13 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
             $table->string('name')->nullable(false);
             $table->bigInteger('parent_id')->unsigned()->nullable();
         });
-        $capsule::table('categories')->insert(
-            ['name' => 'Electronics']
-        );
+//        $capsule::table('categories')->insert(
+//            ['name' => 'Electronics']
+//        );
+        
+        Category::create([
+            'name' => 'Elecronics'
+        ]);
     }
 
     public function setUp(): void
