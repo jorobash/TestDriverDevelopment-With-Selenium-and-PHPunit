@@ -4,6 +4,9 @@ namespace App\Services;
 
 class CategoryTree
 {
+
+    protected $categoryList;
+
     public function convert(array $db_array,$parent_id = null): array
     {
         $nested_categories = array();
