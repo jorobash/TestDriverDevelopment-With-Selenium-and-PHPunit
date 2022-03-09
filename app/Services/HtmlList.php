@@ -11,18 +11,18 @@ class HtmlList extends CategoryTree
 
     public function makeUlList(array $converted_db_array)
     {
-        $this->categoryList .= self::HTML_UL_OPEN;
-
         foreach ($converted_db_array as $value)
         {
-            $this->categoryList .= self::HTML_LI_OPEN . $value['name'];
+            $this->categoryList .= self::HTML_LI_OPEN."<a href='http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/{$value['id']},{$value['name']}'
+                >".$value['name']."</a>";
             if (!empty($value['children']))
             {
+                $this->categoryList .= '<ul class="submenu menu vertical" data-submenu>';
                  $this->makeUlList($value['children']);
+                $this->categoryList .= '</ul>';
             }
             $this->categoryList .= self::HTML_LI_CLOSE;
         }
-        $this->categoryList .= self::HTML_UL_CLOSE;
         return $this->categoryList;
     }
 }

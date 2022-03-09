@@ -32,9 +32,9 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
 //        $capsule::table('categories')->insert(
 //            ['name' => 'Electronics']
 //        );
-        
+
         Category::create([
-            'name' => 'Elecronics'
+            'name' => 'Electronics'
         ]);
     }
 
@@ -45,9 +45,37 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->setDesiredCapabilities(['chromeOptions' => ['w3c' => false]]);
     }
 
-    public function testCanSeeCorrectStringsOnMainPage()
+    public function testCanSeeAddedCategories()
     {
+
+        Category::create([
+           'name' => 'Electronics'
+        ]);
+
         $this->url('');
-        $this->assertContains('Electronics',$this->source());
+        $element = $this->byXPath('//ul[@class="dropdown menu"]/li[2]/a');
+        $href = $element->attribute('href');
+        $this->assertRegExp('@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,Electronics@',$href);
+
+        $this->url('show-category/1');
+        $element = $this->byXPath('//ul[@class="dropdown menu"]/li[2]/a');
+        $href = $element->attribute('href');
+        $this->assertRegExp('@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,Electronics@',$href);
+
+    }
+
+    public function testCanAddChildCategory()
+    {
+        $parent_category = Category::where('name','Electronics')->first();
+        $child_category = new Category();
+        $child_category->name = 'Monitors';
+
+        $parent_category->children()->save($child_category);
+
+        $this->url('');
+
+        $element = $this->byXPath('//ul[@class="dropdown menu"]/li[2]/ul[1]/li[1]/a');
+        $href = $element->attribute('href');
+        $this->assertRegExp('@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,Monitors@',$href);
     }
 }
