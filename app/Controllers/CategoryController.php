@@ -45,6 +45,16 @@ class CategoryController extends BaseController
             $categorySaved = false;
         }
         else{
+            if(isset($data['category_id'])){
+                $category = Category::find($data['category_id']);
+                $category->name = $data['category_name'];
+                $category->description = $data['category_description'];
+                $category->parent_id = $data['category_parent'];
+                $category->save();
+            }else{
+
+            }
+
             $categorySaved = true;
         }
         return $this->container->view->render($response,'home.phtml',[

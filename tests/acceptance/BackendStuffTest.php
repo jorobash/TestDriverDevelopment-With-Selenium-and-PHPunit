@@ -154,4 +154,40 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->url('show-category/17,Linux');
         $this->assertNotContains('input type="hidden" name="category_id"',$this->source());
     }
+
+    public function testCanEditCategory()
+    {
+        $this->url('edit-category/17');
+
+        $categoryName = $this->byName('category_name');
+        $categoryName->clear();
+        $categoryName->value('Windows');
+        $categoryDescription = $this->byName('category_description');
+        $categoryDescription->clear();
+        $categoryDescription->value('Description of Windows');
+
+        $this->select($this->byId('select_category_list'))->selectOptionByValue("16");
+
+        $button = $this->byCssSelector('input[type="submit"]');
+        $button->submit();
+
+        $this->url('');
+
+        $this->assertNotContains('Linux',$this->source());
+
+        $this->url('edit-category/17');
+
+        $categoryName = $this->byName('category_name');
+        $categoryName->clear();
+        $categoryName->value('Linux');
+        $categoryDescription = $this->byName('category_description');
+        $categoryDescription->clear();
+        $categoryDescription->value('Description of Linux');
+
+        $this->select($this->byId('select_category_list'))->selectOptionByValue("15");
+
+        $button = $this->byCssSelector('input[type="submit"]');
+        $button->submit();
+    }
+    
 }
