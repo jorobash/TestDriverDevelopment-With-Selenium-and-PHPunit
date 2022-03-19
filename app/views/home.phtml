@@ -42,11 +42,11 @@
                 Category was saved
             </div>
             <?php endif; ?>
-          <?php if($category_deleted ?? false): ?>
+          <?php if($_SESSION['category_delete'] ?? false): ?>
           <div class="callout alert">
                       Category was deleted
           </div>
-          <?php endif; ?>
+          <?php unset($_SESSION['category_deleted']); endif; ?>
           <form method="post" action="<?= $baseUrl ?>save-category">
           <label>Name
             <input name="category_name" type="text" placeholder="Name"
@@ -61,7 +61,7 @@
           <label
             >Parent category
             <select id="select_category_list" name="category_parent">
-              <option>--choose--</option>
+              <option value=<?=null?>>--choose--</option>
                 <?php foreach($select_list_categories as $category_for_select): ?>
                       <?php if(isset($editCategory) && $editCategory->parent_id == $category_for_select['id']): ?>
                         <option selected value="<?=$category_for_select['id']?>"><?=$category_for_select['name']?></option>

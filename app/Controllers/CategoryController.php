@@ -12,9 +12,11 @@ class CategoryController extends BaseController
         $categoryId = $args['id'];
         $category = Category::find($categoryId);
         $category->delete();
-        return $this->container->view->render($response,'home.phtml',[
-            'category_deleted' => true
-        ]);
+        $_SESSION['category_delete'] = true;
+        return $response->withRedirect('http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/', 301);
+//        return $this->container->view->render($response,'home.phtml',[
+//            'category_deleted' => true
+//        ]);
     }
 
     public function showCategory($request,$response,$args)
@@ -45,15 +47,19 @@ class CategoryController extends BaseController
             $categorySaved = false;
         }
         else{
+
             if(isset($data['category_id'])){
                 $category = Category::find($data['category_id']);
-                $category->name = $data['category_name'];
-                $category->description = $data['category_description'];
-                $category->parent_id = $data['category_parent'];
-                $category->save();
-            }else{
 
+            }else{
+                $category = new Category;
             }
+
+            $category->name = $data['category_name'];
+            $category->description = $data['category_description'];
+            $category->parent_id = !empty($data['category_parent'])
+                ? $data['category_parent'] : null;
+            $category->save();
 
             $categorySaved = true;
         }

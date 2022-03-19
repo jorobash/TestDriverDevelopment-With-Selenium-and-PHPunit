@@ -189,5 +189,21 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $button = $this->byCssSelector('input[type="submit"]');
         $button->submit();
     }
-    
+
+    public function testCanAddCategory()
+    {
+        $this->url('');
+
+        $categoryName = $this->byName('category_name');
+        $categoryName->value('Windows');
+        $categoryDescription = $this->byName('category_description');
+        $categoryDescription->value('Description of Windows');
+
+        $this->select($this->byId('select_category_list'))->selectOptionByValue('15');
+        $button = $this->byCssSelector('input[type="submit"]');
+        $button->submit();
+
+        $this->url('show-category/18,Windows');
+        $this->assertContains('Description of Windows',$this->source());
+    }
 }

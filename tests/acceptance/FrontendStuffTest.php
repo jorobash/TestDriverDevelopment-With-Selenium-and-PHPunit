@@ -59,9 +59,9 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->back();
         $categoryName = $this->byName('category_name');
-        $categoryName->value("Joro");
+        $categoryName->value('RTV');
         $categoryDescription = $this->byName('category_description');
-        $categoryDescription->value('Description text');
+        $categoryDescription->value('Description of RTV');
         $button = $this->byCssSelector('input[type="submit"]');
         $button->submit();
         $this->assertContains('Category was saved',$this->source());
@@ -73,7 +73,7 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $categories = $this->elements(
             $this->using('css selector')
                 ->value('ul.dropdown li'));
-        $this->assertEquals(18,count($categories));
+        $this->assertEquals(20,count($categories));
 
         $element2 = $this->byCssSelector('ul.dropdown > li:nth-child(2) > a');
         $this->assertEquals('Electronics',$element2->text());
@@ -108,10 +108,10 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
             return null;
         },4000);
         $this->acceptAlert();
+        $this->assertNotRegExp('@Computers</a>@',$this->source());
+
         $this->assertContains('Category was deleted',$this->source());
 
-        $this->url('');
-        $this->assertNotRegExp('@Computers</a>@',$this->source());
     }
 
     public function testCanSeePopulatedFormDataWhenCategoryIsEdited()
@@ -124,5 +124,11 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $categoryDescription = $this->byName('category_description');
         $description = $categoryDescription->value();
         $this->assertSame('Description of Linux',$description);
+    }
+
+    public function testCanSeeSelectOptionList()
+    {
+        $this->url('');
+        $this->assertContains('&nbsp;&nbsp;&nbsp;&nbsp;Linux',$this->source());
     }
 }
