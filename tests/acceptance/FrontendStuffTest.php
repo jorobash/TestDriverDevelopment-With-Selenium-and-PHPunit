@@ -28,21 +28,6 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertTrue(true);
     }
 
-    public function testCanSeeCorrectMessageAfterDeletingCategory()
-    {
-        $this->url('show-category/1');
-        $this->clickOnElement('delete-category-confirmation');
-        $this->waitUntil(function(){
-            if($this->alertIsPresent()) return true;
-            return null;
-        },4000);
-        $this->acceptAlert();
-        $this->assertContains('Category was deleted',$this->source());
-
-
-        $this->markTestIncomplete('Message about deleted category should appear after redirection');
-    }
-
     public function testCanSeeEditAndDeleteLinksAndCategoryName()
     {
         $this->url('show-category/1');
@@ -54,8 +39,7 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $editLink = $this->byLinkText('Edit');
         $href = $editLink->attribute('href');
         $this->assertContains('edit-category/1',$href);
-
-        $this->markTestIncomplete('Category name, description,edit, delete links must be dynamic');
+        $this->assertContains('Description of Electronics',$this->source());
     }
 
     public function testSeeEditCategoryMessage()
@@ -64,8 +48,6 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
         $editLink = $this->byLinkText('Edit');
         $editLink->click();
         $this->assertContains('Edit category',$this->source());
-
-        $this->markTestIncomplete('Make input values dynamic');
     }
 
     public function testCanSeeFormValidation()
@@ -115,5 +97,32 @@ class FrontendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
           $this->assertRegExp(
               '@^http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/[0-9]+,FullHD$@',$href
           );
+    }
+
+    public function testCanSeeCorrectMessageAfterDeletingCategory()
+    {
+        $this->url('show-category/1');
+        $this->clickOnElement('delete-category-confirmation');
+        $this->waitUntil(function(){
+            if($this->alertIsPresent()) return true;
+            return null;
+        },4000);
+        $this->acceptAlert();
+        $this->assertContains('Category was deleted',$this->source());
+
+        $this->url('');
+        $this->assertNotRegExp('@Computers</a>@',$this->source());
+    }
+
+    public function testCanSeePopulatedFormDataWhenCategoryIsEdited()
+    {
+        $this->url('edit-category/17');
+        $categoryName = $this->byName('category_name');
+        $name = $categoryName->value();
+        $this->assertSame('Linux',$name);
+
+        $categoryDescription = $this->byName('category_description');
+        $description = $categoryDescription->value();
+        $this->assertSame('Description of Linux',$description);
     }
 }

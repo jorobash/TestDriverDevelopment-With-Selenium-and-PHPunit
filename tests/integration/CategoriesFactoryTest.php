@@ -20,6 +20,7 @@ class CategoriesFactoryTest extends \PHPUnit\Framework\TestCase
         ]);
         $capsule->setAsGlobal(); // allow static methods
         $capsule->bootEloquent(); // setup the Eloquent ORM
-        $this->assertTrue(is_string(CategoriesFactory::create()));
+        $this->assertTrue(is_string(CategoriesFactory::create()['menu_categories']));
+        $this->assertTrue(is_array(CategoriesFactory::create()['select_list_categories']));
     }
 }

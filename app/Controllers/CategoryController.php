@@ -2,12 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
+
 class CategoryController extends BaseController
 {
     public function deleteCategory($request,$response,$args)
     {
 
         $categoryId = $args['id'];
+        $category = Category::find($categoryId);
+        $category->delete();
         return $this->container->view->render($response,'home.phtml',[
             'category_deleted' => true
         ]);
@@ -16,7 +20,7 @@ class CategoryController extends BaseController
     public function showCategory($request,$response,$args)
     {
         $categoryId = $args['id'];
-        $category = 'Electronics';
+        $category = Category::find($categoryId);
 
         return $this->container->view->render($response,'home.phtml',[
             'category' => $category
@@ -27,7 +31,8 @@ class CategoryController extends BaseController
     {
 
         $categoryId = $args['id'];
-        $category = ['name' => 'Electronics','parent' => null];
+        $category = Category::find($categoryId);
+
         return $this->container->view->render($response,'home.phtml',[
            'editCategory' => $category
         ]);
@@ -46,4 +51,13 @@ class CategoryController extends BaseController
             'categorySaved' => $categorySaved
         ]);
     }
+
+    public function compareStrings()
+    {
+//        $stinrg1 = "<li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/1,Electronics">Electronics</a></li><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/2,Videos">Videos</a></li><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/3,Software">Software</a></li>";
+//        $sting2 = "<li><a href='http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/1,Electronics'>Electronics</a></li><li><a href='http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/2,Videos'>Videos</a></li><li><a href='http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/3,Software'>Software</a></li>";
+//        var_dump($sting2 == $stinrg1);
+    }
 }
+
+//(new CategoryController())->compareStrings();

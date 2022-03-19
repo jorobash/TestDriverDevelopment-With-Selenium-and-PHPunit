@@ -30,11 +30,11 @@ class CategoryTreeTest extends \PHPUnit\Framework\TestCase
                   ['id' => 2, 'name' => 'Videos', 'parent_id' => null],
                   ['id' => 3, 'name' => 'Software', 'parent_id' => null]
               ],
-              '<ul><li>Electronics</li><li>Videos</li><li>Software</li></ul>',
+              '<li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/1,Electronics">Electronics</a></li><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/2,Videos">Videos</a></li><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/3,Software">Software</a></li>',
               [
-                  ['name' => 'Electronics'],
-                  ['name' => 'Videos'],
-                  ['name' => 'Software']
+                  ['name' => 'Electronics','id' => 1],
+                  ['name' => 'Videos','id' => 2],
+                  ['name' => 'Software','id' => 3]
               ]
           ],
           'two level' => [
@@ -57,10 +57,10 @@ class CategoryTreeTest extends \PHPUnit\Framework\TestCase
                   ['id' => 1, 'name' => 'Electronics', 'parent_id' => null],
                   ['id' => 2, 'name' => 'Computers', 'parent_id' => 1]
               ],
-              "<ul><li>Electronics<ul><li>Computers</li></ul></li></ul>",
+              '<li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/1,Electronics">Electronics</a><ul class="submenu menu vertical" data-submenu><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/2,Computers">Computers</a></li></ul></li>',
               [
-                  ['name'=>'Electronics'],
-                  ['name'=>'&nbsp;&nbsp;Computers'],
+                  ['name'=>'Electronics','id' => 1],
+                  ['name'=>'&nbsp;&nbsp;Computers','id' => 2],
               ]
           ],
           'three level' => [
@@ -91,11 +91,11 @@ class CategoryTreeTest extends \PHPUnit\Framework\TestCase
                   ['id' => 2, 'name' => 'Computers', 'parent_id' => 1],
                   ['id' => 3, 'name' => 'Laptops', 'parent_id' => 2]
               ],
-              '<ul><li>Electronics<ul><li>Computers<ul><li>Laptops</li></ul></li></ul></li></ul>',
+              '<li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/1,Electronics">Electronics</a><ul class="submenu menu vertical" data-submenu><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/2,Computers">Computers</a><ul class="submenu menu vertical" data-submenu><li><a href="http://localhost:2143/PHPUnitSeleniumAndTDD/TestDrivernDevelopment/public/show-category/3,Laptops">Laptops</a></li></ul></li></ul></li>',
               [
-                  ['name'=>'Electronics'],
-                  ['name'=>'&nbsp;&nbsp;Computers'],
-                  ['name'=>'&nbsp;&nbsp;&nbsp;&nbsp;Laptops'],
+                  ['name'=>'Electronics','id' => 1],
+                  ['name'=>'&nbsp;&nbsp;Computers','id' => 2],
+                  ['name'=>'&nbsp;&nbsp;&nbsp;&nbsp;Laptops','id' => 3],
               ]
           ]
         ];

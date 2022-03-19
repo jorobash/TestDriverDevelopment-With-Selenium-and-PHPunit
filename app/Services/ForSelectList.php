@@ -8,7 +8,10 @@ class ForSelectList extends CategoryTree
     {
         foreach ($after_conversion_db as $value)
         {
-            $this->categoryList[] = ['name'=> str_repeat("&nbsp;",$repeat).$value['name']];
+            $this->categoryList[] = [
+                'name'=> str_repeat("&nbsp;",$repeat).$value['name'],
+                'id' => $value['id']
+            ];
 
             if(!empty($value['children']))
             {

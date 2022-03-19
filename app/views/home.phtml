@@ -8,47 +8,7 @@
             <a href="<?= $baseUrl ?>"> Multi level categories</a>
           </li>
         <?= $categories; ?>
-        <!--  <li class="has-submenu">
-            <a href="<?= $baseUrl ?>/show-category/1">Electronics</a>
-            <ul class="submenu menu vertical" data-submenu>
-              <li><a href="<?= $baseUrl?>show-category/2,Monitors">Monitors</a></li>
-              <li><a href="#">Tablets</a></li>
-              <li>
-                <a href="#">Computers</a>
-                <ul class="submenu menu vertical" data-submenu>
-                  <li><a href="#">Desktops</a></li>
-                  <li><a href="#">Notebooks</a></li>
-                  <li>
-                    <a href="#">Laptops</a>
-                    <ul class="submenu menu vertical" data-submenu>
-                      <li><a href="#">Asus</a></li>
-                      <li><a href="#">Dell</a></li>
-                      <li>
-                        <a href="#">Acer</a>
-                        <ul class="submenu menu vertical" data-submenu>
-                          <li><a href="<?= $baseUrl?>show-category/7,FullHD">FullHD</a></li>
-                          <li><a href="#">HD+</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li> -->
-          <!--<li><a href="#">Videos</a></li>
-          <li>
-            <a href="#">Software</a>
-            <ul class="submenu menu vertical" data-submenu>
-              <li>
-                <a href="#">Operating systems</a>
-                <ul class="submenu menu vertical" data-submenu>
-                  <li><a href="#">Linux</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Servers</a></li>
-            </ul>
-          </li> -->
+      
         </ul>
       </div>
       <div class="top-bar-right">
@@ -90,39 +50,25 @@
           <form method="post" action="<?= $baseUrl ?>save-category">
           <label>Name
             <input name="category_name" type="text" placeholder="Name"
-            value="<?= $editCategory ?? null ?>"
+            value="<?= $editCategory['name'] ?? null ?>"
             required/>
           </label>
           <label
             >Description
             <textarea name="category_description" placeholder="Description"
-           required></textarea>
+           required><?= $editCategory['description'] ?? null ?></textarea>
           </label>
           <label
             >Parent category
-            <select>
+            <select id="select_category_list" name="category_parent">
               <option>--choose--</option>
-              <option value="">Electronics</option>
-              <option value="">&nbsp;&nbsp;Monitors</option>
-              <option value="">&nbsp;&nbsp;Tablets</option>
-              <option value="">&nbsp;&nbsp;Computers</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;Desktops</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;Notebooks</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;Laptops</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asus</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dell</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acer</option>
-              <option value=""
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FullHD</option
-              >
-              <option value=""
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HD+</option
-              >
-              <option value="">Videos</option>
-              <option value="">Software</option>
-              <option value="">&nbsp;&nbsp;Operating systems</option>
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;Linux</option>
-              <option value="">&nbsp;&nbsp;Servers</option>
+                <?php foreach($select_list_categories as $category_for_select): ?>
+                      <?php if(isset($editCategory) && $editCategory->parent_id == $category_for_select['id']): ?>
+                        <option selected value="<?=$category_for_select['id']?>"><?=$category_for_select['name']?></option>
+                      <?php else: ?>
+                     <option value="<?=$category_for_select['id']?>"><?=$category_for_select['name']?></option>
+                      <?php endif; ?>
+                <?php endforeach; ?>
             </select>
           </label>
           <input
@@ -136,13 +82,10 @@
         <div class="medium-6 large-5 cell large-offset-1">
           <div class="basic-card">
             <div class="basic-card-content content callout secondary">
-              <h5><?= $category ?? 'Choose a category from the menu' ?></h5>
-              <?php if($category ?? false): ?>
+              <h5><?= $category->name ?? 'Choose a category from the menu' ?></h5>
+              <?php if($category->description ?? false): ?>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi
-                saepe, asperiores dolor nesciunt dolore, accusamus minus
-                repellendus vero odio, quibusdam, ipsum nisi in a molestiae ex
-                assumenda nulla eveniet eos!
+               <?= $category->description?>
               </p>
               <?php endif;?>
             </div>
@@ -150,10 +93,10 @@
             <div class="links callout primary">
               <ul class="menu">
                 <li>
-                  <a href="<?= $baseUrl ?>/edit-category/1">Edit</a>
+                  <a href="<?= $baseUrl ?>/edit-category/<?= $category->id; ?>">Edit</a>
                 </li>
                 <li>
-                  <a href="<?= $baseUrl?>delete-category/1"
+                  <a href="<?= $baseUrl?>delete-category/<?= $category->id; ?>"
                    id="delete-category-confirmation"
                                         onclick="return confirm('Are you sure')"
                   >Delete</a>

@@ -13,6 +13,14 @@
         <testsuite name="default">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
+
+        <testsuite name="all">
+            <directory>tests/unit</directory>
+            <directory>tests/integration</directory>
+            <directory>tests/acceptance/BackendStuffTest.php</directory>
+            <directory>tests/acceptance/FrontendStuffTest.php</directory>
+        </testsuite>
+
     </testsuites>
 
     <filter>
