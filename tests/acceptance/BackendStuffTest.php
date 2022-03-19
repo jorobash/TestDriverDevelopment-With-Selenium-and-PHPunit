@@ -145,4 +145,13 @@ class BackendStuffTest extends PHPUnit_Extensions_Selenium2TestCase
             $this->byId('select_category_list'))->selectedValue()
         );
     }
+
+    public function testCanSeeCategoryIdToBeEdited()
+    {
+        $this->url('edit-category/17');
+        $this->assertContains('input type="hidden" name="category_id"',$this->source());
+
+        $this->url('show-category/17,Linux');
+        $this->assertNotContains('input type="hidden" name="category_id"',$this->source());
+    }
 }

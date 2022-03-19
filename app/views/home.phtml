@@ -76,6 +76,9 @@
             class="button expanded"
             value="Save category"
           />
+          <?php if(isset($editCategory)): ?>
+          <input type="hidden" name="category_id" value="<?= $editCategory->id; ?>">
+         <?php  endif; ?>
           </form>
         </div>
 
